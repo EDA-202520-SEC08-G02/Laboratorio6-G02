@@ -30,9 +30,13 @@ import time
 import tracemalloc
 
 
-# TODO Realice la importación del mapa linear probing
-# TODO Realice la importación de ArrayList como estructura de datos auxiliar para sus requerimientos
+# Realice la importación del mapa linear probing
+# Realice la importación de ArrayList como estructura de datos auxiliar para sus requerimientos
 # TODO Realice la importación del mapa separate chaining
+
+
+from DataStructures.Map import map_linear_probing as lp
+from DataStructures.List import array_list as al
 
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/GoodReads/'
@@ -55,7 +59,7 @@ def new_logic():
 
     #Tabla de Hash que contiene los libros indexados por good_reads_book_id  
     #(good_read_id -> book)
-    catalog['books_by_id'] = None #TODO completar la creación del mapa
+    catalog['books_by_id'] = None # completar la creación del mapa
 
     #Tabla de Hash con la siguiente pareja llave valor: (author_name -> List(books))
     catalog['books_by_authors'] = None #TODO completar la creación del mapa
