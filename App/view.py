@@ -110,6 +110,7 @@ def print_books_by_tag(tag_name, books_by_tag):
     la información solicitada.
     """
     if books_by_tag:
+        """print(al.size(books_by_tag),'\n')"""#para comprobar que si funcionara bien
         print("Tag encontrado: " + tag_name)
         for book_pos in range(0, al.size(books_by_tag)):
             book = al.get_element(books_by_tag, book_pos)
@@ -164,8 +165,8 @@ def main():
             print('Géneros cargados: ' + str(tg))
             print('Asociación de Géneros a Libros cargados: ' +
                   str(bktg))
-            print('El tiempo de carga fue:',te,'[ms]')
-            print('El consumo de memoria fue:',cm)
+            print('El tiempo de carga fue:',round(te,2),'[ms]')
+            print('El consumo de memoria fue:',round(cm,2),'[kb]')
 
 
         elif int(inputs[0]) == 2:
