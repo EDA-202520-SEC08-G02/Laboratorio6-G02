@@ -36,13 +36,13 @@ import tracemalloc
 
 
 from DataStructures.List import array_list as al
-#from DataStructures.Map import map_linear_probing as lp
-from DataStructures.Map import map_separate_chaining as lp
+from DataStructures.Map import map_linear_probing as lp #main branch = linear probing
+from DataStructures.Map import map_separate_chaining as sc #msc branch = separate chaining
 
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/GoodReads/'
 
-factor_de_carga = 2.00
+factor_de_carga = 0.7
 
 
 def new_logic():
