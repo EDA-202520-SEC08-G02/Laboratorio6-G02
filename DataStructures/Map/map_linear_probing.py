@@ -39,23 +39,7 @@ def is_available(table, pos):
     entry_key = mpe.get_key(entry)
     return entry_key is None or entry_key == "__EMPTY__"
 
-"""
-def find_slot(my_map,key,hash_value):
-    i = hash_value
 
-    elem = lt.get_element(my_map["table"], i)
-    while default_compare(key, elem) == 0 and default_compare(None, elem) and i != hash_value-1:
-        i = (i+1) % my_map["capacity"]
-        elem = lt.get_element(my_map["table"], i)
-        i_key = mpe.get_key(elem)
-    
-    if i_key == key:
-        return (True, i)
-    elif i_key == None:
-        return (False, i)
-    else:
-        raise Exception("pues esta llena")
-"""
 
 def find_slot(my_map, key, hash_value):
     capacity = my_map["capacity"]
@@ -80,7 +64,35 @@ def find_slot(my_map, key, hash_value):
     if first_available != -1:
         return (False, first_available)
     raise Exception("pues esta llena")
- 
+    
+    
+"""def find_slot(my_map, key, hash_value):
+"
+    capacity = my_map["capacity"]
+    i = hash_value % capacity  # Asegurar que empiece en rango
+    first_available = -1
+
+    #Buscar de manera más eficiente
+    for attempt in range(capacity):
+        elem = lt.get_element(my_map["table"], i)
+        elem_key = mpe.get_key(elem)
+
+    # 1: Encontramos la key
+        if elem_key == key:
+            return (True, i)
+
+    #Caso 2: Espacio disponible
+        if elem_key is None or elem_key == "EMPTY":
+            if first_available == -1:
+                first_available = i
+            # Si es None (nunca usado), podemos terminar la búsqueda
+            if elem_key is None:
+                return (False, first_available)
+
+        i = (i + 1) % capacity
+
+    return (False, first_available)"""
+    
 def rehash(my_map):
     prime = my_map['prime']
     load_factor = my_map['limit_factor']
@@ -104,6 +116,8 @@ def rehash(my_map):
 
     return my_map
 
+
+
 def place(my_map,key,val):
     if (my_map["size"]+1)/my_map["capacity"] >= my_map["limit_factor"]:
         my_map = rehash(my_map)
@@ -113,6 +127,7 @@ def place(my_map,key,val):
     
     if not found:
         my_map['size'] += 1
+        my_map['current_factor'] = my_map['size'] / my_map['capacity']
     lt.change_info(my_map["table"], indice, val)
 
     return my_map
@@ -120,9 +135,6 @@ def place(my_map,key,val):
 def put(my_map,key,value):
     entry = mpe.new_map_entry(key, value)
     my_map = place(my_map, key, entry)
-    
-    """place(my_map, key, mpe.new_map_entry(key, value))
-"""
     return my_map
 
 def contains(my_map, key):
@@ -139,13 +151,7 @@ def remove(my_map, key):
         lt.change_info(my_map["table"], i, empty_entry)
         my_map["size"] -= 1
     
-    return my_map
-
-"""
-    place(my_map, key, "__EMPTY__")
-
-    return  my_map
-"""
+    return my_map 
 
 def get(my_map, key):
     hash_value = mpf.hash_value(my_map, key)
@@ -155,9 +161,34 @@ def get(my_map, key):
         return mpe.get_value(entry)
     else:
         return None
-"""    return lt.get_element(my_map["table"], i)
-"""
+
 
 def size(my_map):
     return my_map["size"]
 
+def is_empty(mY_map):
+    if mY_map['size'] == 0:
+        return True
+    else:
+        return False
+
+def key_set(my_map):
+    keys = lt.new_list()
+    table = my_map['table']
+    for i in range(0,lt.size(table)):
+        entry = lt.get_element(table,i)
+        key = mpe.get_key(entry)
+        if key != None and key != "__EMPTY__":
+            lt.add_last(keys,key)
+    return keys
+
+def value_set(my_map):
+    values = lt.new_list()
+    table = my_map['table']
+    for i in range(0,lt.size(table)):
+        entry = lt.get_element(table,i)
+        key = mpe.get_key(entry)
+        value = get(my_map,key)
+        if value != None and value != "__EMPTY__":
+            lt.add_last(values,value)
+    return values
